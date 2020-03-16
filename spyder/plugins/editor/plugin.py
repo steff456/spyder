@@ -2359,15 +2359,21 @@ class Editor(SpyderPluginWidget):
         """
         if self.cursor_pos_index is None:
             return
+        logger.debug('!!!!!!!!')
+        logger.debug(self.cursor_pos_history)
         filename, _position = self.cursor_pos_history[self.cursor_pos_index]
         self.cursor_pos_history[self.cursor_pos_index] = (
             filename, self.get_current_editor().get_position('cursor'))
         self.__ignore_cursor_position = True
         old_index = self.cursor_pos_index
+        logger.debug("old: {}".format(old_index))
         self.cursor_pos_index = min(len(self.cursor_pos_history) - 1,
                                     max(0, self.cursor_pos_index + index_move))
+        logger.debug("cursor_pos_index: {}".format(self.cursor_pos_index))
         filename, position = self.cursor_pos_history[self.cursor_pos_index]
         filenames = self.get_current_editorstack().get_filenames()
+        logger.debug(filenames)
+        logger.debug('----- Position {}'.format(position))
         if not osp.isfile(filename) and filename not in filenames:
             self.cursor_pos_history.pop(self.cursor_pos_index)
             if self.cursor_pos_index <= old_index:
@@ -2376,6 +2382,7 @@ class Editor(SpyderPluginWidget):
         else:
             self.load(filename)
             editor = self.get_current_editor()
+            logger.debug('Character count: {}'.format(editor.document().characterCount()))
             if position < editor.document().characterCount():
                 editor.set_cursor_position(position)
         self.__ignore_cursor_position = False
@@ -2383,11 +2390,13 @@ class Editor(SpyderPluginWidget):
 
     @Slot()
     def go_to_previous_cursor_position(self):
+        logger.debug('$$$$$$$$')
         self.switch_to_plugin()
         self.__move_cursor_position(-1)
 
     @Slot()
     def go_to_next_cursor_position(self):
+        logger.debug('##########')
         self.switch_to_plugin()
         self.__move_cursor_position(1)
 

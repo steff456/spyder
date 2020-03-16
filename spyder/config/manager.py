@@ -310,6 +310,11 @@ class ConfigurationManager(object):
 
         Context must be either '_' for global or the name of a plugin.
         """
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.debug('%%%%%%%%%%%%%')
+        logger.debug(keystr)
+        logger.debug(name)
         config = self._get_shortcut_config(context, plugin_name)
         config.set('shortcuts', context + '/' + name, keystr)
 
