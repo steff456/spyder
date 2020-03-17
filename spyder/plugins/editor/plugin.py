@@ -2366,7 +2366,10 @@ class Editor(SpyderPluginWidget):
             filename, self.get_current_editor().get_position('cursor'))
         self.__ignore_cursor_position = True
         old_index = self.cursor_pos_index
+        logger.debug('^^^^ {}'.format(self.cursor_pos_history[self.cursor_pos_index]))
         logger.debug("old: {}".format(old_index))
+        logger.debug("first_arg: {}".format(len(self.cursor_pos_history) - 1))
+        logger.debug("second_arg: {}".format(self.cursor_pos_index + index_move))
         self.cursor_pos_index = min(len(self.cursor_pos_history) - 1,
                                     max(0, self.cursor_pos_index + index_move))
         logger.debug("cursor_pos_index: {}".format(self.cursor_pos_index))
